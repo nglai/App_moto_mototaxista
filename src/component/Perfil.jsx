@@ -5,6 +5,7 @@ export default function Perfil(){
     return(
         <View style={styles.container}>
             <Text>Perfil</Text>
+            <Text>Dados do motoca</Text>
         </View>
     )
 }
