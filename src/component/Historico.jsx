@@ -5,7 +5,7 @@ export default function Historico(){
     return(
         <View style={styles.container}>
             <Text>Histórico</Text>
-            <Text>Mostra os historicos da corrida</Text>
+            <Text>Mostra os historicos da corrida olha que beleza</Text>
         </View>
     )
 }
