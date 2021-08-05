@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 export default function LogOut(){
     return(
         <View style={styles.container}>
-            <Text>Componente de logout</Text>
+            <Text>Componente danibala logout</Text>
         </View>
     )
 }
