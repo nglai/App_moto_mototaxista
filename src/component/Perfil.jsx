@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 export default function Perfil(){
     return(
         <View style={styles.container}>
-            <Text>Perfil do motoqueiro</Text>
+            <Text>Perfil do motoca</Text>
         </View>
     )
 }
