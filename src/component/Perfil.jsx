@@ -8,9 +8,7 @@ export default function ({navigation}){
 
     
     useEffect(
-        () => navigation.addListener('focus', () => {
-            pegaDados()
-        }), []
+     ()=>{pegaDados()}
     )
 
     console.log(state);
