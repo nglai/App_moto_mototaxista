@@ -1,26 +1,69 @@
 import React from 'react';
-import { useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useState, useEffect, useContext } from 'react';
+import { View, ActivityIndicator, Text, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { UserContext } from './UserContext';
+import firebase from '../../firebase';
 
-export default function Login({navigation}){
-    const [email,setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
-    const entrar = () => {
-        navigation.reset({
-            index:0,
-            routes: [{name:'Home'}]
+export default function Login() {
+  
+    //-----------------------------
+    const {logado, deslogado} = useContext(UserContext);
+    const [loading, setLoading] = useState(true);
+    const [state, setState] = useState({
+        email: '',
+        senha: '',
+        msg: ''
+    })
+
+    const handleInputChange = (name, value) => {
+        setState({
+            ...state, [name]: value
         })
     }
-    const cadastrar = () => {
-        navigation.navigate('Cadastro')
-    }
 
-    return(
+    useEffect(
+        () => {
+            const auth = firebase.auth;
+            const unsubscribed = auth.onAuthStateChanged(
+                user => {
+                    if (user) {
+                        if (user.emailVerified) {logado(user);
+                        } else {
+                            auth.signOut();
+                            deslogado();
+                            setLoading(false);
+                        }
+                    } else {
+                        setLoading(false);
+                    }
+                }
+            )
+            return () => {
+                unsubscribed();
+            }
+        }, []
+    )
+
+    const login = async () => {
+        const auth = firebase.auth;
+        const {email, senha} = state;
+        try {
+            const resposta = await auth.signInWithEmailAndPassword(email, senha);
+        } catch (error) {
+            setState({
+                ...state, msg: 'email ou senha inválidos'
+            })
+        }
+    }
+    if (loading) {
+        return <ActivityIndicator />
+    }
+    return (
         <View style={styles.container}>
             <View style={styles.viewLogo}>
                 <Image
-                style={styles.logo}
-                source={require('../../imagens/MotoApp.png')}
+                    style={styles.logo}
+                    source={require('../../imagens/MotoApp.png')}
                 />
             </View>
 
@@ -28,80 +71,89 @@ export default function Login({navigation}){
                 <TextInput
                     style={styles.input}
                     placeholder='Email'
+                    defaultValue={state.email}
                     autoCorrect={false}
                     keyboardType='email-address'
-                    onChangeText={(value) => setEmail(value)}
+                    onChangeText={
+                        (value) => handleInputChange('email', value)
+                    }
+
                 />
                 <TextInput
                     style={styles.input}
                     placeholder='Senha'
+                    defaultValue={state.senha}
                     autoCorrect={false}
-                    keyboardType='numeric'
+                    keyboardType='default'
                     secureTextEntry={true}
-                    onChangeText={(value) => setPassword(value)}
+                    onChangeText={
+                        (value) => handleInputChange('senha', value)
+                    }
+
                 />
                 <TouchableOpacity
                     style={styles.btnSubmit}
-                    onPress={() => entrar()}
-                    >
+                    onPress={login()}
+                >
                     <Text style={styles.textSubmit}>Entrar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnElse}>
                     <Text style={styles.btnColor}>Esqueci minha senha</Text>
                 </TouchableOpacity>
             </View>
+            <Text style={styles.msg}>{state.msg}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'#FEA82F',
-        alignItems:'center',
-        justifyContent:'center',
+    container: {
+        flex: 1,
+        backgroundColor: '#FEA82F',
+        alignItems: 'center',
+        justifyContent: 'center',
 
     },
-    viewLogo:{
-        flex:1,
+    viewLogo: {
+        flex: 1,
     },
-    logo:{
-        width:300,
-        height:300,
-        marginTop:'15%'
+    logo: {
+        width: 300,
+        height: 300,
+        marginTop: '15%'
     },
-    viewText:{
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center',
-        width:'90%',
-        paddingBottom:15,
+    viewText: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+        paddingBottom: 15,
     },
-    input:{
-        backgroundColor:'white',
-        width:'90%',
-        marginBottom:15,
-        color:'#222',
-        borderRadius:10,
-        fontSize:17,
-        padding:10,
+    input: {
+        backgroundColor: 'white',
+        width: '90%',
+        marginBottom: 15,
+        color: '#222',
+        borderRadius: 10,
+        fontSize: 17,
+        padding: 10,
     },
-    btnSubmit:{
+    btnSubmit: {
         backgroundColor: '#FF6701',
-        width:'30%',
-        height:'15%',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:10,
+        width: '30%',
+        height: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
     },
-    textSubmit:{
-        color:'white',
-        fontSize:18,
+    textSubmit: {
+        color: 'white',
+        fontSize: 18,
     },
-    btnElse:{
-        marginTop:10,
+    btnElse: {
+        marginTop: 10,
     },
-    btnColor:{
-        color:'black'
+    btnColor: {
+        color: 'black'
     },
 });
