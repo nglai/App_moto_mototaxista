@@ -31,7 +31,7 @@ export default function ({navigation}){
 
         //Trazer um a um para receber e mostrar os dados organizados em objeto:
         const listMotos = [];
-        dados.auth(
+        dados.forEach(
         doc => {
             listMotos.push({
                 ...doc.data(),
