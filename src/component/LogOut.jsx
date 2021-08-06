@@ -1,55 +1,68 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Image, Button, ActivityIndicator, FlatList} from 'react-native';
-import firebase from '../../firebase'
+import React, {useEffect, useState} from 'react';
+import firebase from '../../firebase';
+import { StyleSheet,Text, View, ActivityIndicator, FlatList, Button, Image } from 'react-native';
 
-export default function LogOut(){
+export default function LogOut({navigation}){
+    const [loading, setLoading] = useState(false);
+    const [state, setState] = useState([]);
 
-    //esse state será responsavel por escolher a renderização após o carregamento de dados
-    const [loading, setLoading] = useState(true);
-
-    //esse estado vai ser responsavel por receber os dados do banco de dados
-    const [state, setState] = useState([])
-
+    
     useEffect(
-        ()=>(pegaDados())
+        () => navigation.addListener('focus', () => {
+            pegaDados()
+        }), []
     )
 
-    const pegaDados = async () => {
-        const mototaxista = firebase.db.collection('mototaxista');
-        const resposta = await mototaxista.doc.get();
-        const listMototaxista = [];
-        resposta.forEach(
-            doc => {
-                listMototaxista.push({
-                    ...doc.data(),
-                    key: doc.id
-                })
-            }
-        )
-        setState(listMototaxista);
+    console.log(state);
+
+    //busca o conteúdo da coleção:
+    const  pegaDados = async () => {
+
+        //Referência do firebase firestore, acessando a coleção:
+        const motot = firebase.db.collection('mototaxista');
+
+        //constante de armazenamento esperando o retorno da função:
+        const resposta = await motot.get();
+
+        //constante que recebe os documentos alinhados no formato de array com as informações:
+        const dados = resposta.docs;
+
+        //Trazer um a um para receber e mostrar os dados organizados em objeto:
+        const listMotos = [];
+        dados.forEach(
+        doc => {
+            listMotos.push({
+                ...doc.data(),
+                key: doc.id
+            })
+        })    
+        setState(listMotos);
         setLoading(false);
-    }
+      }
 
     if(loading){
-        return <ActivityIndicator animating={true} size="large" color="#FF6701" />
+        return <ActivityIndicator/>
     }
 
     return(
         <View style={styles.container}>
-            <Text>Olá!</Text>
             <FlatList
-                data = {state}
+                data={state}
                 renderItem={
-                    ({item}) => (
+                    ({item})=>(
                         <View style={styles.container}>
-                            <Text>{item.nomeMotorista}</Text>
-                            <Text>Modelo da moto: {item.modeloMoto}</Text>
-                            <Text>Placa da moto: {item.placaMoto}</Text>
+                            <Text>Nome: {item.dados.nomeMotorista} </Text>
+                            <Text>Modelo Moto: {item.dados.modeloMoto} </Text>
+                            <Text>Placa: {item.dados.placa} </Text>
+                           
+                            <View style={styles.container2}>
+                            
                         </View>
-                    )
-                }
-            />
+                        </View>
+                )}/>
+                
         </View>
+        
     )
 }
 
