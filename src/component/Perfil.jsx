@@ -5,8 +5,9 @@ import { StyleSheet,Text, View, ActivityIndicator, FlatList, Button, Image } fro
 export default function ({navigation}){
     const [loading, setLoading] = useState(false);
     const [state, setState] = useState([]);
-
     
+
+       
     useEffect(
         () => navigation.addListener('focus', () => {
             pegaDados()
