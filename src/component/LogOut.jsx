@@ -1,19 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import firebase from '../../firebase';
 import { StyleSheet,Text, View, ActivityIndicator, FlatList, Button, Image } from 'react-native';
+import { UserContext } from './UserContext';
 
-export default function LogOut({navigation}){
+export default function LogOut(){
+    const {deslogado} = useContext(UserContext);
+
     const [loading, setLoading] = useState(false);
     const [state, setState] = useState([]);
 
+    const logout = async () =>{
+        const auth = firebase.auth;
+        await auth.signOut();
+        deslogado();
+    }
     
     useEffect(
-        () => navigation.addListener('focus', () => {
-            pegaDados()
-        }), []
+        () => {pegaDados()}, []
     )
 
-    console.log(state);
 
     //busca o conteúdo da coleção:
     const  pegaDados = async () => {
@@ -46,6 +51,7 @@ export default function LogOut({navigation}){
 
     return(
         <View style={styles.container}>
+            <View>
             <FlatList
                 data={state}
                 renderItem={
@@ -56,11 +62,13 @@ export default function LogOut({navigation}){
                             <Text>Placa: {item.dados.placa} </Text>
                            
                             <View style={styles.container2}>
-                            
+                            </View>
                         </View>
-                        </View>
-                )}/>
-                
+            )}/>
+            </View>
+            <View>
+                <Button title="Logout" onPress={logout} />
+            </View>
         </View>
         
     )

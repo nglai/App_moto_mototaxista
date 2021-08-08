@@ -6,34 +6,28 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/component/Login';
 import Principal from './src/component/Principal';
 import { UserContext } from './src/component/UserContext';
-
-//constante de navegação stack
-const Stack = createStackNavigator();
+import LogOut from './src/component/LogOut';
 
 export default function App() {
-  // verifica se está logado
   const [isLogged, setIsLogged] = useState(false);
-  //recebe o usuário logado
   const [user, setUser] = useState(null);
-
+  
   const logado = async (user) => {
-    setIsLogged(true);//alterando para principal
-    setUser(user);//passando os dados do u (usuários) para user
+    setIsLogged(true);
+    setUser(user);
   }
-  const deslogado = async () => {
-    setIsLogged(false);// voltando para login
-    setUser(null);//eu retiro o state do nosso usuário
+  
+  const deslogado = async () =>{
+    setIsLogged(false);
+    setUser(null);
   }
-
+  
   return (
     <NavigationContainer>
-      <StatusBar />
-      <UserContext.Provider value={{ user, logado, deslogado }}>
+      <StatusBar/>
+      <UserContext.Provider value={{user, logado, deslogado}}>
         {isLogged && user ? <Principal /> : <Login />}
       </UserContext.Provider>
     </NavigationContainer>
   );
 }
-
-{/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen name="Principal" component={Principal} options={{ headerShown: false }} /> */}

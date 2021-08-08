@@ -2,18 +2,14 @@ import React, {useEffect, useState} from 'react';
 import firebase from '../../firebase';
 import { StyleSheet,Text, View, ActivityIndicator, FlatList, Button, Image } from 'react-native';
 
-export default function ({navigation}){
-    const [loading, setLoading] = useState(false);
+export default function Perfil(){
+    const [loading, setLoading] = useState(true);
     const [state, setState] = useState([]);
 
     
     useEffect(
-     ()=>{pegaDados()}
+     ()=>{pegaDados()},[]
     )
-
-    console.log(state);
-
-
 
     //busca o conteúdo da coleção:
     const  pegaDados = async () => {
@@ -49,7 +45,7 @@ export default function ({navigation}){
            <Image
         style={styles.logo}
         source={require('../../imagens/logoperfil.jpeg')}
-      />         
+            />         
            
             <FlatList
                 data={state}
@@ -59,10 +55,6 @@ export default function ({navigation}){
                             <Text>Nome: {item.dados.nomeMotorista} </Text>
                             <Text>Modelo Moto: {item.dados.modeloMoto} </Text>
                             <Text>Placa: {item.dados.placa} </Text>
-                           
-                            <View style={styles.container2}>
-                            
-                        </View>
                         </View>
                 )}/>
                 
