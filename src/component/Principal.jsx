@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-native-gesture-handler';
 import { View, Text, Button } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,7 +13,7 @@ const Tab = createBottomTabNavigator();
 export default function Principal() {
   return (
     <Tab.Navigator
-      initialRouteName="Principal"
+      initialRouteName="Perfil"
       tabBarOptions={{
         activeTintColor: '#FF6701',
       }}
