@@ -29,8 +29,6 @@ export default function Perfil(){
         setLoading(false);
       }
 
-      const {dados} = state;
-
     if(loading){
         return <ActivityIndicator/>
     }
@@ -49,8 +47,7 @@ export default function Perfil(){
                 <Text>Cor: {state.cor}</Text>
                 <Text>Placa: {state.placa} </Text>
                 <Text>Status: {state.status}</Text>
-            </View>
-         {/* where('idMototaxista', '==' 'firebase.auth.currentUser.uid') */}   
+            </View> 
         </View> 
     )
 }
