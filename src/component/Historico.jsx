@@ -42,15 +42,15 @@ export default function Historico(){
                 renderItem={
                     ({item})=>(
                         <View style={styles.container}>
-                            <Text>Data: {item.data}</Text>
-                            <Text>Origem</Text>
-                            <Text>Endereço: {item.origem.endereco}</Text>
-                            <Text>Bairro: {item.origem.bairro}</Text>
-                            <Text>Número: {item.origem.numero}</Text>
-                            <Text>Destino</Text>
-                            <Text>Endereço: {item.destino.endereco}</Text>
-                            <Text>Bairro: {item.destino.bairro}</Text>
-                            <Text>Número: {item.destino.numero}</Text>
+                        <Text>Data: {item.data}</Text>
+                        <Text>Origem</Text>
+                        <Text>Endereço: {item.origem.endereco}</Text>
+                        <Text>Bairro: {item.origem.bairro}</Text>
+                        <Text>Número: {item.origem.numero}</Text>
+                        <Text>Destino</Text>
+                        <Text>Endereço: {item.destino.endereco}</Text>
+                        <Text>Bairro: {item.destino.bairro}</Text>
+                        <Text>Número: {item.destino.numero}</Text>
                         </View>
                     )}/>
         </View>

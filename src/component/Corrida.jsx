@@ -1,64 +1,55 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, FlatList } from 'react-native';
+import React, {useEffect, useState} from 'react';
 import firebase from '../../firebase';
+import { StyleSheet,Text, View, ActivityIndicator, Button, Image } from 'react-native';
 
 export default function Corrida(){
     const [loading, setLoading] = useState(true);
     const [state, setState] = useState([]);
 
+    console.log(firebase.auth.currentUser.uid)
+    console.log(state)
     useEffect(
-        ()=>{corridas()},[]
-       )
+     ()=>{pegaDados()},[]
+    )
 
-    const  corridas = async () => {
-        const info = firebase.db.collection('viagensTeste');
-        const resposta = await info.where('keyMotorista', '==', firebase.auth.currentUser.uid).get();
-        const dados = resposta.docs;
-        const listCorridas = [];
-        dados.forEach(
-        doc => {
-            listCorridas.push({
-                ...doc.data(),
-                key: doc.id
-            })
-        })    
-        setState(listCorridas);
+    //busca o conteúdo da coleção:
+    const  pegaDados = async () => {
+        const cli = firebase.db.collection('viagensTeste');
+        const resposta = await cli.doc('OnhvOsxBnNvP00O2nK2C').get();
+        setState(resposta.data());
         setLoading(false);
-    }
-    
-    // const {destino} = state;
+      }
 
     if(loading){
         return <ActivityIndicator/>
     }
 
     return(
-        <View style={styles.container}>
-            <View>
-                <Text>Corridas</Text>    
+        <View style={styles.container}>      
+            <View style={styles.container}>
+                <Text>Data: {state.data}</Text>
+                <Text>Origem</Text>
+                <Text>Endereço: {state.origem.endereco}</Text>
+                <Text>Bairro: {state.origem.bairro}</Text>
+                <Text>Número: {state.origem.numero}</Text>
+                <Text>Destino</Text>
+                <Text>Endereço: {state.destino.endereco}</Text>
+                <Text>Bairro: {state.destino.bairro}</Text>
+                <Text>Número: {state.destino.numero}</Text>
             </View>
-            <FlatList
-                data={state}
-                renderItem={
-                    ({item})=>(
-                        <View style={styles.container}>
-                            <Text>Data: {item.data}</Text>
-                            <Text>Origem</Text>
-                            <Text>Endereço: {item.origem.endereco}</Text>
-                            <Text>Bairro: {item.origem.bairro}</Text>
-                            <Text>Número: {item.origem.numero}</Text>
-                            <Text>Destino</Text>
-                            <Text>Endereço: {item.destino.endereco}</Text>
-                            <Text>Bairro: {item.destino.bairro}</Text>
-                            <Text>Número: {item.destino.numero}</Text>
-                        </View>
-                    )}/>
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#FCECDD'
+        flex:1,
+        backgroundColor:'#FEA82F',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    logo:{
+        width:300,
+        height:300,
+        marginTop:'15%'
     }
-})
+  });
