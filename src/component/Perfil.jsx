@@ -16,7 +16,7 @@ export default function Perfil(){
     const  pegaDados = async () => {
 
         //Referência do firebase firestore, acessando a coleção:
-        const motot = firebase.db.collection('motoTaxista');
+        const motot = firebase.db.collection('mototaxista');
 
         //constante de armazenamento esperando o retorno da função:
         const resposta = await motot.doc(firebase.auth.currentUser.uid).get();
@@ -47,7 +47,7 @@ export default function Perfil(){
                 <Text>Cor: {state.cor}</Text>
                 <Text>Placa: {state.placa} </Text>
                 <Text>Status: {state.status}</Text>
-            </View> 
+            </View>
         </View> 
     )
 }
