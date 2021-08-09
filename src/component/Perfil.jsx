@@ -40,7 +40,7 @@ export default function Perfil(){
         source={require('../../imagens/logoperfil.jpeg')}
             />         
             <View style={styles.container}>
-                <Text>Nome: {state.nomeMotorista} </Text>
+                <Text style={styles.texto}>Nome: {state.nomeMotorista} </Text>
                 <Text>Licença: {state.licenca}</Text>
                 <Text>Endereço: {state.endereco}</Text>
                 <Text>Modelo Moto: {state.modeloMoto} </Text>
@@ -62,5 +62,8 @@ const styles = StyleSheet.create({
         width:300,
         height:300,
         marginTop:'15%'
+    },
+    texto:{
+        fontSize:18
     }
   });

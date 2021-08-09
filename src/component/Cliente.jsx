@@ -2,9 +2,12 @@ import React, {useEffect, useState} from 'react';
 import firebase from '../../firebase';
 import { StyleSheet,Text, View, ActivityIndicator, Button, Image } from 'react-native';
 
-export default function Cliente(){
+export default function Corrida(){
+    const [loading, setLoading] = useState(true);
     const [state, setState] = useState([]);
 
+    console.log(firebase.auth.currentUser.uid)
+    console.log(state)
     useEffect(
      ()=>{pegaDados()},[]
     )
@@ -14,15 +17,20 @@ export default function Cliente(){
         const cli = firebase.db.collection('clientes');
         const resposta = await cli.doc('06yJarCQ4dZuiKhr4m9kmk3CD2f2').get();
         setState(resposta.data());
+        setLoading(false);
       }
-console.log(setState)
+
+    if(loading){
+        return <ActivityIndicator/>
+    }
+
     return(
-        <View style={styles.container}>        
+        <View style={styles.container}>      
             <View style={styles.container}>
-                <Text>Nome do Cliente: {state.nome} </Text>
-                <Text>Celular: {state.celular}</Text>
+                <Text>Nome: {state.dados.nome}</Text>
+                <Text>Celular: {state.dados.celular}</Text>         
             </View>
-        </View> 
+        </View>
     )
 }
 const styles = StyleSheet.create({
