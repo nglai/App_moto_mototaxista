@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import firebase from '../../firebase';
-import { StyleSheet,Text, View, ActivityIndicator, FlatList, Button, Image } from 'react-native';
+import { StyleSheet,Text, View, ActivityIndicator, FlatList, Button, Image, TouchableOpacity } from 'react-native';
 import { UserContext } from './UserContext';
 
 export default function LogOut(){
@@ -39,24 +39,32 @@ export default function LogOut(){
 
 
     if(loading){
-        return <ActivityIndicator/>
+        return <ActivityIndicator animating={true} size="large" color="orange"/>
     }
 
     return(
         <View style={styles.container}>
-           
-            <View>
-                <Text style={styles.texto}>Nome: {state.nomeMotorista} </Text>
-                <Text>Licença: {state.licenca}</Text>
-                <Text>Endereço: {state.endereco}</Text>
-                <Text>Modelo Moto: {state.modeloMoto} </Text>
-                <Text>Cor: {state.cor}</Text>
-                <Text>Placa: {state.placa} </Text>
-                <Text>Status: {state.status}</Text>
+            <View style={styles.viewImage}>
+            <Image
+                style={styles.logo}
+                source={require('../../imagens/foto.png')}
+            />
+            <Text style={styles.texto}>{state.nomeMotorista} </Text>
+            </View>
+            <View style={styles.viewDados}>
+                <Text style={styles.textDados}>Modelo Moto: {state.modeloMoto} </Text>
+                <Text style={styles.textDados}>Cor: {state.cor}</Text>
+                <Text style={styles.textDados}>Placa: {state.placa} </Text>
+                <Text style={styles.textDados}>Status: {state.status}</Text>
             </View>
            
-            <View>
-                <Button title="Logout" onPress={logout} />
+            <View style={styles.viewBotao}>
+                <TouchableOpacity
+                    style={styles.botao}
+                    onPress={logout}  
+                >
+                    <Text style={styles.botaoText}>LogOut</Text>
+                </TouchableOpacity>
             </View>
         </View>
         
@@ -65,9 +73,53 @@ export default function LogOut(){
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#FCECDD'
+        flex:1,
+        backgroundColor:'#FEA82F'
+    },
+    viewImage:{
+        flex:2,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:'10%',
+    },
+    logo:{
+        height:125,
+        width:125,
+        borderRadius:'60%'
     },
     texto:{
         fontSize:30,
+        marginTop:'2%',
+    },
+    viewDados:{
+        flex:3,
+        justifyContent:'center',
+        alignItems:'center',
+        borderWidth:2,
+        borderRadius:20,
+        borderColor:'#FCECDD',
+        margin:'15%',
+        // padding:10
+
+    },
+    textDados:{
+        fontSize:18
+    },
+    viewBotao:{
+        flex:1,
+        alignItems:'center',
+    },
+    botao:{
+        backgroundColor:'#FF6701',
+        borderWidth:1,
+        borderRadius:50,
+        width:'50%',
+        padding:'3%',
+        textAlign:'center',
+        
+    },
+    botaoText:{
+        color:'white',
+        fontSize:20, 
     }
 })

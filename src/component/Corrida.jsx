@@ -22,7 +22,7 @@ export default function Corrida(){
       }
 
     if(loading){
-        return <ActivityIndicator/>
+        return <ActivityIndicator animating={true} size="large" color="orange"/>
     }
 
     return(
