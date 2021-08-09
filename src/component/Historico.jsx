@@ -29,30 +29,32 @@ export default function Historico(){
     // const {destino} = state;
 
     if(loading){
-        return <ActivityIndicator/>
+        return <ActivityIndicator animating={true} size="large" color="orange"/>
     }
 
     return(
         <View style={styles.container}>
-            <View>
-                <Text>Corridas</Text>    
+            <View style={styles.titulo}>
+                <Text style={styles.titulo}>Histórico de Corridas</Text>    
             </View>
-            <FlatList
+            <FlatList 
                 data={state}
                 renderItem={
                     ({item})=>(
-                        <View style={styles.container}>
-                        <Text>Data: {item.data}</Text>
-                        <Text>Origem</Text>
-                        <Text>Endereço: {item.origem.endereco}</Text>
-                        <Text>Bairro: {item.origem.bairro}</Text>
-                        <Text>Número: {item.origem.numero}</Text>
-                        <Text>Destino</Text>
-                        <Text>Endereço: {item.destino.endereco}</Text>
-                        <Text>Bairro: {item.destino.bairro}</Text>
-                        <Text>Número: {item.destino.numero}</Text>
+                        <View style={styles.box}>
+                            <Text style={styles.subtitulo}>Data: {item.data}</Text>
+                            <Text style={styles.subtitulo}>Origem</Text>
+                            <Text style={styles.texto}>Endereço: {item.origem.endereco}</Text>
+                            <Text style={styles.texto}>Bairro: {item.origem.bairro}</Text>
+                            <Text style={styles.texto}>Número: {item.origem.numero}</Text>
+                            <Text style={styles.subtitulo}>Destino</Text>
+                            <Text style={styles.texto}>Endereço: {item.destino.endereco}</Text>
+                            <Text style={styles.texto}>Bairro: {item.destino.bairro}</Text>
+                            <Text style={styles.texto}>Número: {item.destino.numero}</Text>
                         </View>
-                    )}/>
+                    ) 
+                }
+            />
         </View>
     )
 }
@@ -61,30 +63,30 @@ const styles = StyleSheet.create({
     
     container:{
         flex:1,
-        backgroundColor:'#FCECDD',
+        backgroundColor:'#FEA82F',
         alignItems:'center',
-        padding:12
-    },
-    h1:{
-        fontSize:20,
-        fontWeight:'bold',
-        padding:12
-    },
-    input:{
-        height:60,
-        width:'90%',
-        borderWidth:1,
-        padding:10,
-        marginTop:5,          
-    },
-    alert:{
-        color:'red'
+        padding:12,
+       
     },
     box:{
         backgroundColor:'#FEA82F',
         borderWidth:2,
         borderRadius:10,
+        borderColor:'white',
         margin:20,
         padding:30,
+        textAlign:'center',
+    },
+    titulo:{
+        fontSize:30,
+        fontWeight:'bold',
+    },
+    subtitulo:{
+        fontSize:20,
+        fontWeight:'bold',
+    },
+    texto:{
+        fontSize:18,
     }
+
 });
