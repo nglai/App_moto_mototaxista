@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import firebase from '../../firebase';
-import { StyleSheet,Text, View, ActivityIndicator, Button, Image } from 'react-native';
+import { StyleSheet,Text, View, ActivityIndicator, Button, Image, TouchableOpacity } from 'react-native';
 import Cliente from './Cliente';
 
 export default function Corrida(){
@@ -27,20 +27,27 @@ export default function Corrida(){
 
     return(
         <View style={styles.container}>      
-            <View style={styles.container}>
+            <View style={styles.centro}>
+                <Text style={styles.h1}>Nova corrida disponível:</Text>
                 <Cliente/>
-                <Text>Origem</Text>
-                <Text>Endereço: {state.origem.endereco}</Text>
-                <Text>Bairro: {state.origem.bairro}</Text>
-                <Text>Número: {state.origem.numero}</Text>
-                <Text>Destino</Text>
-                <Text>Endereço: {state.destino.endereco}</Text>
-                <Text>Bairro: {state.destino.bairro}</Text>
-                <Text>Número: {state.destino.numero}</Text>
+                <View style={styles.box}>
+                <Text style={styles.h1}>Origem</Text>
+                <Text style={styles.texto}>Endereço: {state.origem.endereco}</Text>
+                <Text style={styles.texto}>Bairro: {state.origem.bairro}</Text>
+                <Text style={styles.texto}>Número: {state.origem.numero}</Text>
+                </View>
+                <View style={styles.box}>
+                <Text style={styles.h1}>Destino</Text>
+                <Text style={styles.texto}>Endereço: {state.destino.endereco}</Text>
+                <Text style={styles.texto}>Bairro: {state.destino.bairro}</Text>
+                <Text style={styles.texto}>Número: {state.destino.numero}</Text>
+                </View>
             </View>
-            <Text>Aceita a Corrida?</Text>
-            <Button title='SIM'/>
-            <Button title='NÃO'/>
+            <Text style={styles.h1}>Aceita a Corrida?</Text>
+            <View style={styles.botoes}>
+            <TouchableOpacity><Text style={styles.sim}>SIM</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={styles.nao}>NÃO</Text></TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -54,6 +61,53 @@ const styles = StyleSheet.create({
     logo:{
         width:300,
         height:300,
-        marginTop:'5%'
+        
+    },    
+    h1:{
+        fontSize:20,
+        margin:20,
+        fontWeight:'bold'
+    },
+    texto:{
+        fontSize:18
+    },
+    botoes:{
+        flexDirection:'row',
+        marginBottom:20
+        
+    },
+    sim:{
+        fontSize:20,
+        backgroundColor:'#FF6701',
+        color:'white',
+        marginHorizontal:10,
+        borderWidth:2,
+        borderRadius:20,
+        width:80,
+        textAlign:'center',
+        padding:'2%'
+    },
+    nao:{
+        fontSize:20,
+        backgroundColor:'#FF6701',
+        color:'white',
+        marginHorizontal:10,
+        borderWidth:2,
+        borderRadius:20,
+        width:80,
+        textAlign:'center',
+        padding:'2%'
+        
+    },
+    centro:{
+        textAlign:'center'
+    },
+    box:{
+        borderWidth:2,
+        borderRadius:20,
+        borderColor:'#FCECDD',
+        margin:10,
+        padding:10,
+        alignItems:'center',
     }
   });

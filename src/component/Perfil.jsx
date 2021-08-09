@@ -35,18 +35,21 @@ export default function Perfil(){
 
     return(
         <View style={styles.container}>
-           <Image
-        style={styles.logo}
-        source={require('../../imagens/logoperfil.jpeg')}
-            />         
+                  
             <View style={styles.container}>
-                <Text style={styles.texto}>Nome: {state.nomeMotorista} </Text>
-                <Text>Licença: {state.licenca}</Text>
-                <Text>Endereço: {state.endereco}</Text>
-                <Text>Modelo Moto: {state.modeloMoto} </Text>
-                <Text>Cor: {state.cor}</Text>
-                <Text>Placa: {state.placa} </Text>
-                <Text>Status: {state.status}</Text>
+             <Image
+                 style={styles.logo}
+                 source={require('../../imagens/logoperfil.jpeg')}
+                 />  
+                <Text style={styles.h1}>Nome: {state.nomeMotorista} </Text>
+                <View style={styles.box}>
+                <Text style={styles.texto}>Licença: {state.licenca}</Text>
+                <Text style={styles.texto}>Endereço: {state.endereco}</Text>
+                <Text style={styles.texto}>Modelo Moto: {state.modeloMoto} </Text>
+                <Text style={styles.texto}>Cor: {state.cor}</Text>
+                <Text style={styles.texto}>Placa: {state.placa} </Text>
+                <Text style={styles.texto}>Status: {state.status}</Text>
+                </View>
             </View>
         </View> 
     )
@@ -61,9 +64,22 @@ const styles = StyleSheet.create({
     logo:{
         width:300,
         height:300,
-        marginTop:'15%'
+        // marginTop:'15%'
     },
     texto:{
         fontSize:18
+    },
+    h1:{
+        fontSize:20,
+        margin:20,
+        fontWeight:'bold'
+    },
+    box:{
+        borderWidth:2,
+        borderRadius:20,
+        borderColor:'#FCECDD',
+        margin:10,
+        padding:10,
+        textAlign:'center'
     }
   });
