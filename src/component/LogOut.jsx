@@ -27,23 +27,16 @@ export default function LogOut(){
         const motot = firebase.db.collection('mototaxista');
 
         //constante de armazenamento esperando o retorno da função:
-        const resposta = await motot.get();
+        const resposta = await motot.doc(firebase.auth.currentUser.uid).get();
 
         //constante que recebe os documentos alinhados no formato de array com as informações:
-        const dados = resposta.docs;
+      
 
-        //Trazer um a um para receber e mostrar os dados organizados em objeto:
-        const listMotos = [];
-        dados.forEach(
-        doc => {
-            listMotos.push({
-                ...doc.data(),
-                key: doc.id
-            })
-        })    
-        setState(listMotos);
+        //Trazer um a um para receber e mostrar os dados organizados em objeto:  
+        setState(resposta.data());
         setLoading(false);
       }
+
 
     if(loading){
         return <ActivityIndicator/>
@@ -51,21 +44,17 @@ export default function LogOut(){
 
     return(
         <View style={styles.container}>
+           
             <View>
-            <FlatList
-                data={state}
-                renderItem={
-                    ({item})=>(
-                        <View style={styles.container}>
-                            <Text>Nome: {item.dados.nomeMotorista} </Text>
-                            <Text>Modelo Moto: {item.dados.modeloMoto} </Text>
-                            <Text>Placa: {item.dados.placa} </Text>
-                           
-                            <View style={styles.container2}>
-                            </View>
-                        </View>
-            )}/>
+                <Text style={styles.texto}>Nome: {state.nomeMotorista} </Text>
+                <Text>Licença: {state.licenca}</Text>
+                <Text>Endereço: {state.endereco}</Text>
+                <Text>Modelo Moto: {state.modeloMoto} </Text>
+                <Text>Cor: {state.cor}</Text>
+                <Text>Placa: {state.placa} </Text>
+                <Text>Status: {state.status}</Text>
             </View>
+           
             <View>
                 <Button title="Logout" onPress={logout} />
             </View>
@@ -77,5 +66,8 @@ export default function LogOut(){
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'#FCECDD'
+    },
+    texto:{
+        fontSize:30,
     }
 })

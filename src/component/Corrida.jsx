@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import firebase from '../../firebase';
 import { StyleSheet,Text, View, ActivityIndicator, Button, Image } from 'react-native';
+import Cliente from './Cliente';
 
 export default function Corrida(){
     const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ export default function Corrida(){
     return(
         <View style={styles.container}>      
             <View style={styles.container}>
-                <Text>Data: {state.data}</Text>
+                <Cliente/>
                 <Text>Origem</Text>
                 <Text>Endereço: {state.origem.endereco}</Text>
                 <Text>Bairro: {state.origem.bairro}</Text>
@@ -37,6 +38,9 @@ export default function Corrida(){
                 <Text>Bairro: {state.destino.bairro}</Text>
                 <Text>Número: {state.destino.numero}</Text>
             </View>
+            <Text>Aceita a Corrida?</Text>
+            <Button title='SIM'/>
+            <Button title='NÃO'/>
         </View>
     )
 }
@@ -50,6 +54,6 @@ const styles = StyleSheet.create({
     logo:{
         width:300,
         height:300,
-        marginTop:'15%'
+        marginTop:'5%'
     }
   });
