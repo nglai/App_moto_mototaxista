@@ -13,7 +13,6 @@ var firebaseConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
 
   //porta de entrada para a base de dados do projeto
   const db = firebase.firestore();
