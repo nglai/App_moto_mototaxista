@@ -1,57 +1,58 @@
-import React, {useEffect,useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { View, Text, StyleSheet, Image, ActivityIndicator, FlatList } from 'react-native';
 import firebase from '../../firebase';
-import {StyleSheet, Button, View,Text, ActivityIndicator,FlatList} from 'react-native';
 
+export default function Historico(){
+    const [loading, setLoading] = useState(true);
+    const [state, setState] = useState([]);
 
-export default function listHistorico({navigation}){
-    const[loading, setLoading] = useState(true);
-    const[state,setState] = useState([]);
+    useEffect(
+        ()=>{corridas()},[]
+       )
 
-    //executa a funçao e traz os dados 
-    useEffect( 
-        () => navigation.addListener('focus', () => {
-            pegaDados()
-        }), []
-    )
-    console.log(state);
-
-    const pegaDados = async () => {
-        const historico = firebase.db.collection("mototaxista");
-        const resposta = await historico.get();
-        const dados = resposta.docs; // chamando como os documentos 
-        const listHistorico = []; //array vazio para colocar os objetos do forEach
+    const  corridas = async () => {
+        const info = firebase.db.collection('viagensTeste');
+        const resposta = await info.where('keyMotorista', '==', firebase.auth.currentUser.uid).get();
+        const dados = resposta.docs;
+        const listCorridas = [];
         dados.forEach(
-        doc => {  // variavel que vai receber o objeto
-            listHistorico.push({
+        doc => {
+            listCorridas.push({
                 ...doc.data(),
                 key: doc.id
             })
-        })
-        setState(listHistorico);//recebe a lista depois que a função terminar
-        setLoading(false);//alterar o estado do Loading para falso 
+        })    
+        setState(listCorridas);
+        setLoading(false);
     }
-    console.log(state)
+    
+    // const {destino} = state;
+
     if(loading){
-        return <ActivityIndicator animating={true} size="large" color="red"/>
+        return <ActivityIndicator/>
     }
 
     return(
         <View style={styles.container}>
-            <Text style={styles.h1}>Histórico de viagens </Text>
+            <View>
+                <Text>Corridas</Text>    
+            </View>
             <FlatList
                 data={state}
-                renderItem={({ item })  => (
-                <View style={styles.box} >
-                    <Text>Nome do Cliente: {item.viagens.nomeCliente}</Text>
-                    <Text>Data: {item.viagens.data}</Text>
-                    <Text>Destino: {item.viagens.destino}</Text>
-                    <Text>Hora: {item.viagens.hora}</Text>
-                    <Text>Origem: {item.viagens.origem}</Text>
-                    <Text>Telefone: {item.viagens.telefoneCliente}</Text>
-
-                </View>
-                )}    
-            /> 
+                renderItem={
+                    ({item})=>(
+                        <View style={styles.container}>
+                            <Text>Data: {item.data}</Text>
+                            <Text>Origem</Text>
+                            <Text>Endereço: {item.origem.endereco}</Text>
+                            <Text>Bairro: {item.origem.bairro}</Text>
+                            <Text>Número: {item.origem.numero}</Text>
+                            <Text>Destino</Text>
+                            <Text>Endereço: {item.destino.endereco}</Text>
+                            <Text>Bairro: {item.destino.bairro}</Text>
+                            <Text>Número: {item.destino.numero}</Text>
+                        </View>
+                    )}/>
         </View>
     )
 }
